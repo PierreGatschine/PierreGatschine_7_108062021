@@ -13,9 +13,7 @@ exports.getAllPosts = (req, res, next) => {
   });
 };
 exports.createPost = (req, res, next) => {
-  let title = req.body.title;
-  let userId = req.body.userId;
-  let content = req.body.content;
+  const { title, userId, content } = req.body;
   let sqlInserts = [userId, title, content];
   posts.createPost(sqlInserts).then((response) => {
     res.status(201).json(JSON.stringify(response));
@@ -25,9 +23,8 @@ exports.updatePost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
   const userId = decodedToken.userId;
-  let title = req.body.title;
-  let content = req.body.content;
-  let postId = req.params.id;
+  const { title, content } = req.body;
+  const postId = req.params.id;
   let sqlInserts1 = [postId];
   let sqlInserts2 = [title, content, postId, userId];
   posts
@@ -44,7 +41,7 @@ exports.deletePost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
   const userId = decodedToken.userId;
-  let postId = req.params.id;
+  const postId = req.params.id;
   let sqlInserts1 = [postId];
   let sqlInserts2 = [postId, userId];
   posts
@@ -59,16 +56,15 @@ exports.deletePost = (req, res, next) => {
 };
 
 exports.getComments = (req, res, next) => {
-  let postId = req.params.id;
+  const postId = req.params.id;
   let sqlInserts = [postId];
   posts.getComments(sqlInserts).then((response) => {
     res.status(200).json(JSON.stringify(response));
   });
 };
 exports.createComment = (req, res) => {
-  let postId = req.params.id;
-  let userId = req.body.userId;
-  let content = req.body.content;
+  const { userId, content } = req.body;
+  const postId = req.params.id;
   let sqlInserts = [userId, postId, content];
   posts.createComment(sqlInserts).then((response) => {
     res.status(201).json(JSON.stringify(response));
@@ -79,8 +75,8 @@ exports.updateComment = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
   const userId = decodedToken.userId;
-  let content = req.body.content;
-  let commentId = req.params.id;
+  const content = req.body.content;
+  const commentId = req.params.id;
   let sqlInserts1 = [commentId];
   let sqlInserts2 = [content, commentId, userId];
   posts
@@ -94,7 +90,7 @@ exports.updateComment = (req, res) => {
     });
 };
 exports.deleteComment = (req, res) => {
-  let commentId = req.params.id;
+  const commentId = req.params.id;
   let sqlInserts = [commentId];
   posts.deleteComment(sqlInserts).then((response) => {
     res.status(200).json(JSON.stringify(response));
@@ -104,7 +100,7 @@ exports.deleteComment = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
   const userId = decodedToken.userId;
-  let commentId = req.params.id;
+  const commentId = req.params.id;
   let sqlInserts1 = [commentId];
   let sqlInserts2 = [commentId, userId];
   posts
@@ -124,9 +120,7 @@ exports.getAllLikes = (req, res) => {
   });
 };
 exports.postLike = (req, res) => {
-  let userId = req.body.userId;
-  let nbLikes = req.body.nbLikes;
-  let postId = req.body.postId;
+  const { userId, nbLikes, postId } = req.body;
   let sqlInserts1 = [postId, userId];
   let sqlInserts2 = [nbLikes, postId];
   posts

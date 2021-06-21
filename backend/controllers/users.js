@@ -60,9 +60,7 @@ exports.updateUser = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
   const userId = decodedToken.userId;
-  let firstname = req.body.firstName;
-  let lastname = req.body.lastName;
-  let email = req.body.email;
+  const { firstname, lastname, email } = req.body;
   let sqlInserts = [firstname, lastname, email, userId];
   users
     .updateUser(sqlInserts)

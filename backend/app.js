@@ -1,9 +1,12 @@
 const express = require('express');
 const helmet = require('helmet');
 
+const app = express();
+
 const usersRoutes = require("./routes/users");
 const postsRoutes = require("./routes/post");
-const app = express();
+const moderationRoutes = require("./routes/moderation")
+
 
 
 app.use(helmet()); 
@@ -24,6 +27,7 @@ app.use((req, res, next) => {
 
 app.use("api/auth", usersRoutes);
 app.use("/api/posts", postsRoutes);
+app.use("/api/moderation", moderationRoutes);
 
 
 module.exports = app;
