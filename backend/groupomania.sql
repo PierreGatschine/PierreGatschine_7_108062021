@@ -12,19 +12,13 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`
 (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `lastName` varchar
-(255) NOT NULL,
-  `firstName` varchar
-(255) NOT NULL,
-  `email` varchar
-(50) NOT NULL,
-  `password` varchar
-(255) NOT NULL,
-  `moderation` int unsigned DEFAULT NULL,
-  PRIMARY KEY
-(`id`),
-  UNIQUE KEY `email`
-(`email`)
+   `firstname`varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` int unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -1,19 +1,13 @@
 const express = require('express');
 const helmet = require('helmet');
 
-const connection = require('./models/db-config');
-
-connection.connect((err) => {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-  } else {
-    console.log(
-      "connected to database with threadId :  " + connection.threadId
-    );
-  }
-});
-
+const usersRoutes = require("./routes/users");
+const postsRoutes = require("./routes/post");
 const app = express();
+
+
+app.use(helmet()); 
+app.use(express.json());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -28,18 +22,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(helmet()); 
-app.use(express.json());
-
-
-app.use((req, res, next) => {
-    res.json({
-        message: 'Votre requête a bien été reçue ! '
-    });
-    next();
-});
-
-
+app.use("api/auth", usersRoutes);
+app.use("/api/posts", postsRoutes);
 
 
 module.exports = app;
