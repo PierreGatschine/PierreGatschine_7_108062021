@@ -12,7 +12,7 @@ class Users {
 
   signup(sqlInserts) {
     let sql =
-      "INSERT INTO users (firstname, lastname, email, password) VALUES (NULL, ?, ?, ?, ?, NULL)";
+      "INSERT INTO users (firstname, lastname, email, password, role) VALUES (NULL, ?, ?, ?, ?, NULL)";
     sql = mysql.format(sql, sqlInserts);
     return new Promise((resolve, reject) => {
       connection.query(sql, function (err, result) {
