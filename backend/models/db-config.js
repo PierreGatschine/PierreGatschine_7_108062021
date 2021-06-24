@@ -1,5 +1,5 @@
 /** @format */
-require("dotenv").config();
+require("dotenv").config({ path: "./config/.env" });
 const mysql = require("mysql2");
 
 console.log("Connexion à la base de données...");
@@ -22,5 +22,27 @@ connection.connect((err) => {
     );
   }
 });
+/* 
+connection.query("SELECT * FROM groupomania.users", (err, rows) => {
+  if(err){
+    throw err
+  } else {
+    console.log("DATA SENT BOIS");
+    console.log(rows);
+  }
+});
+ */
+/* connection.query(
+  "INSERT INTO `users` VALUES (43,'Lanote','Joe','joe@groupomania.com','$2b$10$zUdR9jpWdGVGDJMcJzEjfeybdlctMSmFTo/F8N43fGTCKGULu5vYC',NULL)",
+  (err, rows) => {
+    if (err) {
+      throw err;
+    } else {
+      console.log("DATA SENT BOIS");
+      console.log(rows);
+    }
+  }
+); */
+
 
 module.exports = connection;

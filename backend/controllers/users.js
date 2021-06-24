@@ -1,20 +1,24 @@
 /** @format */
-require("dotenv").config();
+require("dotenv").config({ path: "./config/.env" });
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken"); 
  
-const Users = require("../models/Users");
+const Users = require("../models/Users.js");
 
 const users = new Users();
 
 const tokenRandom = process.env.TOKEN_RANDOM;
 
+
+
 exports.signup = (req, res) => {
+  console.log(req.body);
   const { firstname, lastname, email, password } = req.body;
   bcrypt
     .hash(password, 10)
     .then((hash) => {
-      let sqlInserts = [ firstname, lastname, email, hash];
+      let sqlInserts = [firstname, lastname, email, hash];
       users
         .signup(sqlInserts)
         .then((response) => {
@@ -41,7 +45,7 @@ exports.login = (req, res) => {
     });
 };
 
-exports.seeMyProfile = (req, res, next) => {
+exports.seeMyProfile = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
   const userId = decodedToken.userId;

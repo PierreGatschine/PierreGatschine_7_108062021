@@ -2,9 +2,10 @@
 
 const express = require("express");
 const router = express.Router();
-const usersCtrl = require("../controllers/users");
-const limiter = require("../middleware/limiter");
+
 const auth = require("../middleware/auth");
+const limiter = require("../middleware/limiter");
+const usersCtrl = require("../controllers/users");
 
 router.post("/signup", limiter, usersCtrl.signup);
 router.post("/login", limiter, usersCtrl.login);
