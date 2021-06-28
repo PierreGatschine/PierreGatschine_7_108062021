@@ -1,5 +1,5 @@
 /** @format */
-
+require("dotenv").config({ path: "./config/.env" });
 const mysql = require("mysql2");
 const connection = require("./db-config");
 const bcrypt = require("bcrypt"); // A library to help you hash passwords
@@ -12,7 +12,7 @@ class Users {
 
   signup(sqlInserts) {
     let sql =
-      "INSERT INTO users (firstname, lastname, email, password, role) VALUES (NULL, ?, ?, ?, ?, NULL)";
+      "INSERT INTO users VALUES (NULL, ?, ?, ?, ?, NULL)";
     sql = mysql.format(sql, sqlInserts);
     return new Promise((resolve, reject) => {
       connection.query(sql, function (err, result) {
@@ -53,7 +53,7 @@ class Users {
   }
 
   seeMyProfile(sqlInserts) {
-    let sql = "SELECT firstName, lastName, email FROM users WHERE id = ?";
+    let sql = "SELECT firstname, lastname, email FROM users WHERE id = ?";
     sql = mysql.format(sql, sqlInserts);
     return new Promise((resolve, reject) => {
       connection.query(sql, function (err, result) {

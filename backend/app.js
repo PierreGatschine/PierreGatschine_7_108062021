@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const path = require("path");
 
 const app = express();
 
@@ -28,8 +29,8 @@ app.use((req, res, next) => {
   next();
 }); */ 
 
-
-app.use("api/auth", usersRoutes);
+app.use("/images", express.static(path.join(__dirname, "images"))); 
+app.use("/api/auth", usersRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/moderation", moderationRoutes);
 

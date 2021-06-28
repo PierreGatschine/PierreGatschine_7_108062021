@@ -14,3 +14,4 @@ router.delete("/", auth, usersCtrl.deleteUser);
 router.put("/", auth, usersCtrl.updateUser);
 
 module.exports = router;
+
