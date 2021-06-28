@@ -1,9 +1,11 @@
 <template>
-  <div id="nav">
-    <router-link to="/login">Connexion</router-link> |
-    <router-link to="/">Déconnexion</router-link>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/login">Connexion</router-link> |
+      <router-link to="/">Déconnexion</router-link>
+    </div>
+    <router-view/>
   </div>
-  <router-view/>
 </template>
 
 <style lang="scss">
@@ -94,6 +96,6 @@ body {
   }
   .button--disabled:hover {
     cursor:not-allowed;
-    background:#cecece;
+    background:#165b9d;
   }
 </style>

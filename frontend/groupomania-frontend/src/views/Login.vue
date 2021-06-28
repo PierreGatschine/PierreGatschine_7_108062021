@@ -6,9 +6,9 @@
       <p class="card__subtitle" v-if="mode == 'login'">Tu n'as pas encore de compte ?  <span class="card__action" @click="switchToCreateAccount()">Créer un compte</span></p>
       <p class="card__subtitle" v-else>Tu as déjà un compte ? <span class="card__action" @click="switchToLogin()">Se connecter</span></p>
     </div>
-    <signup v-if="mode == 'login'"/>
-    <login v-else/>
-    <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
+    <login v-if="mode == 'login'"/>
+    <signup v-else/>
+    <!-- <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
       Adresse mail et/ou mot de passe invalide
     </div>
     <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
@@ -23,7 +23,7 @@
         <span v-if="status == 'loading'">Création en cours...</span>
         <span v-else>Créer mon compte</span>
       </button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -43,6 +43,10 @@ export default {
   data: function () {
     return {
       mode: 'login',
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
     }
   },
   methods: {
@@ -52,7 +56,8 @@ export default {
     switchToLogin: function () {
       this.mode = 'login';
     },
-  }
+  },
+  
 }
 </script>
 
