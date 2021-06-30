@@ -43,8 +43,8 @@ export default {
   data: function () {
     return {
       mode: 'login',
-      firstName: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
     }

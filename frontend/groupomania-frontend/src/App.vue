@@ -25,7 +25,7 @@
 body {
   background: rgb(22,91,157);
   background: linear-gradient(63deg, #165b9d 18%, #1976cd 100%);
-  color: antiquewhite;
+  color: #faebd7;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,6 +46,10 @@ body {
   }
 }
 .card {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; */
   max-width: 100%;
   width: 540px;
   background:#32A2F9;
@@ -55,26 +59,28 @@ body {
 
 .card__title {
   text-align:center;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .card__subtitle {
   text-align: center;
   color:antiquewhite;
-  font-weight: 500;
+  font-weight: 400;
 }
 
   .button {
     background: #2196F3;
     color:antiquewhite;
     border-radius: 8px;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 15px;
     border: none;
     width: 100%;
     padding: 16px;
-    transition: .4s background-color;
+    transition: .8s background-color;
   }
+
+  
 
   .card__action {
     color:#0f4475;

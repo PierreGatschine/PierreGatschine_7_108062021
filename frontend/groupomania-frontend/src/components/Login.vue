@@ -45,6 +45,23 @@ export default {
             message: ""
         }
     },
+    computed: {
+    validatedFields: function () {
+      if (this.mode == 'create') {
+        if (this.email != "" && this.firstname != "" && this.lastname != "" && this.password != "") {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        if (this.email != "" && this.password != "") {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    },
+    },
     methods: {
         sendLogin(){
             this.dataLoginS = JSON.stringify(this.dataLogin);
