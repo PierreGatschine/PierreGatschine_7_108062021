@@ -1,5 +1,6 @@
 /** @format */
 require("dotenv").config({ path: "./config/.env" });
+
 const mysql = require("mysql2");
 
 console.log("Connexion à la base de données...");

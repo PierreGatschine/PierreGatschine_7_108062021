@@ -1,5 +1,6 @@
 /** @format */
 require("dotenv").config({ path: "./config/.env" });
+
 const jwt = require("jsonwebtoken");
 const Moderation = require("../models/Moderation.js");
 

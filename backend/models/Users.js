@@ -1,5 +1,6 @@
 /** @format */
 require("dotenv").config({ path: "./config/.env" });
+
 const mysql = require("mysql2");
 const connection = require("./db-config");
 const bcrypt = require("bcrypt"); // A library to help you hash passwords

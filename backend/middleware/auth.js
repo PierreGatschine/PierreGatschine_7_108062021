@@ -1,6 +1,6 @@
 /** @format */
 
-require("dotenv").config(); // Load environment variables from an .env file into process.env
+require("dotenv").config({ path: "./config/.env" }); // Load environment variables from an .env file into process.env
 
 const jwt = require("jsonwebtoken"); // An implementation of JSON Web Tokens
 
