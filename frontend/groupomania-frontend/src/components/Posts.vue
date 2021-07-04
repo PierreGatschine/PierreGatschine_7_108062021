@@ -5,30 +5,59 @@
                 <h2 class="card-post-name__title">{{ post.firstname }} {{ post.lastname }}</h2>
                 <p class="card-post-name__subtitle">{{ post.date }} à {{ post.time }}</p>
             </div>
-            <div class="card-post-title">
-                <h3 class="card-post-title__subtitle">{{ post.title }}</h3>
+            <div class="card-post-content">
+                <h3 class="card-post-content__title">{{ post.title }}</h3>
+                <div class="card-post-content__content">{{ post.content }}</div>
             </div>
-            <div class="card-post-content">{{ post.content }}</div>
+            <div class="btn-icon">
+                <div class="btn-icon-1">
+                    <button class="btn-icon-1__heart" @click="likePost(post.id, post.likes)">
+                    <i class=" btn-icon-1__heart__icon far fa-heart"></i>
+                    </button>
+                    <p class="btn-icon-1__heart__text">{{ post.likes }}</p>
+                </div>
+                <div class="btn-icon-2" v-if="!afficheFrmCm" @click="afficheCom(post.id)">
+                    <button class="btn-icon-2__comment">
+                    <i class="btn-icon-2__comment__icon far fa-comments"></i>
+                    </button>
+                </div>
+                <div class="btn-icon-3" @click.stop="goDialogUpPost(post.title, post.content, post.id)">
+                    <button class="btn-icon-3__update">
+                        <i class="btn-icon-3__update__icon far fa-edit"></i>
+                    </button>
+                </div>
+                <div class="btn-icon-4" @click="deletePost(post.id)">
+                    <button class="btn-icon-4__delete">
+                        <i class=" btn-icon-4__delete__icon far fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="display-comments" v-if="postId === post.id">
+                <comments /> 
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import axios from "axios"
+import Comments from "./Comments.vue"
 
 export default {
     name : "Posts",
+    components: {
+       Comments, 
+    },
     data(){
         return{
             userId: "",
             admin: "",
-            
+            afficheFrmCm: false,
             allPosts: [],
-            
-            
+            allLikes: [],
+            allComments: [],
             postId: "",
-            
-
+    
             valid: true,
             titleRules: [
                 v => !!v || 'Titre de la publication',
@@ -48,15 +77,99 @@ export default {
                 userId:"",
             },
             dataPostS: "",
+            dataLike:{
+                userId: "",
+                nbLikes: "",
+                postId: "",
+                liked: false,
+            },
+            dataLikeS: "",
             dataCom:{
                 id: "",
                 content:"",
                 userId: ""
-            }
-           
-            
+            },
+            dataComS: "",
         }
     },
+    methods: {
+        goDialogUpPost(postTitle, postContent, postId){
+            this.dataPost.title = postTitle;
+            this.dataPost.content = postContent;
+            this.dataPost.id = postId;
+            this.dialogUpPost = true;
+        },
+        updatePost(){
+            this.dataPost.userId = localStorage.userId;
+            this.dataPostS = JSON.stringify(this.dataPost);
+            axios.put("http://localhost:3000/api/posts/" + this.dataPost.id, this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
+                .then(response => {
+                    let rep = JSON.parse(response.data);
+                    console.log(rep.message);
+                    this.dataPost.title = "";
+                    this.dataPost.content = "";
+                    this.dataPost.userId = "";
+                    this.dataPost.id = "";
+                    this.dialogUpPost = false;
+                    window.location.assign('http://localhost:8081/Publication');
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+        deletePost(pId){
+            axios.delete("http://localhost:3000/api/posts/" + pId, {headers: {Authorization: 'Bearer ' + localStorage.token}})
+                .then(response => {
+                    let rep = JSON.parse(response.data);
+                    console.log(rep.message);
+                    window.location.assign('http://localhost:8081/Publication');
+                })
+                .catch(error => {
+                    console.log(error);    
+                })
+        },
+        afficheCom(pId){
+            this.postId = pId;
+            this.afficheFrmCm = false;
+            axios.get("http://localhost:3000/api/posts/" + pId + "/comments", {headers: {Authorization: 'Bearer ' + localStorage.token}})
+                .then(response => {
+                    let com = JSON.parse(response.data);
+                    this.allComments = com;
+                })
+                .catch(error => {
+                console.log(error);
+                });
+        },
+        afficheFormCom(){
+            this.afficheFrmCm = true
+        },
+        likePost(postId, nbLikes){
+            this.allLikes.forEach(element => {
+                if(element.postId == postId && element.userId == localStorage.userId){
+                    this.dataLike.nbLikes = nbLikes+-1;
+                    this.dataLike.liked = true;
+                }
+            });
+            if(this.dataLike.liked == false){
+                this.dataLike.nbLikes = nbLikes+1;
+            }
+            this.dataLike.userId = localStorage.userId;
+            this.dataLike.postId = postId;
+            this.dataLikeS = JSON.stringify(this.dataLike);
+            axios.post("http://localhost:3000/api/posts/" + postId + "/like", this.dataLikeS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
+                .then(response => {
+                    let rep = JSON.parse(response.data);
+                    console.log(rep.message);
+                    this.dataLike.liked = false;
+                    window.location.assign('http://localhost:8081/Publication');
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.dataLike.liked = false;
+                })
+        },
+    },
+
     mounted(){
         this.userId = localStorage.userId;
         axios.get("http://localhost:3000/api/posts", {headers: {Authorization: 'Bearer ' + localStorage.token}})
@@ -80,5 +193,108 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .card-post {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-around;
+        gap: 3rem;
+        
+    .card-post__allPosts {
+        width: 100%;
+        padding: 1rem;
+        text-shadow: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3));
+        border-bottom: 1px solid #0f4475;
+    }
+    }
+    .card-post-name {
+        margin-bottom: .5rem; 
+        border-radius: 16px;
+        &__title {
+            font-weight: 700;
+            font-size: 20px;
+        }
+        &__subtitle {
+            font-style: italic;
+            font-weight: 400;
+            font-size: 14px;
+        }
+    }
+    .card-post-content {
+        &__title {
+            font-weight: 700;
+            font-size: 22px;
+        }
+        &__content {
+            font-weight: 400;
+            font-size: 14px;
+        }
+    }
+
+    button {
+        text-decoration: none;
+        border: none;
+        background: transparent;
+        color: #faebd7;  
+    }
+
+    .btn-icon {
+        display: flex;
+        align-items: baseline;
+        gap: 2.5rem;
+        padding: 2rem 1rem 1rem .5rem;
+    }
+
+    .btn-icon-1 {
+        display: flex;
+        gap: .6rem;
+        
+
+        &__heart {
+            
+            &__icon {
+                font-size: 20px; 
+            }
+
+            &__text {
+                font-size: 20px; 
+            }
+           
+        }
+
+    }
+
+    .btn-icon-2 {
+        &__comment {
+
+            &__icon {
+                font-size: 20px; 
+            }
+        }
+    }
+
+    .btn-icon-3 {
+        &__update {
+
+            &__icon {
+                font-size: 20px; 
+            }
+        }
+    }
+
+    .btn-icon-4 {
+        &__delete {
+
+            &__icon {
+                font-size: 20px; 
+            }
+        }
+    }
+
+    .display-comments {
+        display: flex;
+        justify-content: end;
+    }
 
 </style>

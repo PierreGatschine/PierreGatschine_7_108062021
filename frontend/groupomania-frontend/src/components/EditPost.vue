@@ -12,7 +12,6 @@
         <button @click="sendPost" class="button" >
             <span>Publier</span>
         </button>
-
     </div>
 </template>
 
@@ -50,9 +49,7 @@ export default {
                     let rep = JSON.parse(response.data);
                     this.message = rep.message;
                     this.msg = true;
-                    this.form = false;
-                    
-                    
+                    this.form = false;         
                 })
                 .catch(error => {
                     console.log(error); 
