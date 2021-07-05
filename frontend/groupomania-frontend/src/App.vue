@@ -2,11 +2,25 @@
   <div id="app">
     <div id="nav">
       <router-link to="/login">Connexion</router-link> |
-      <router-link to="/">Déconnexion</router-link>
+      <router-link to="/" @click="logout">Déconnexion</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  name : 'App',
+  methods: {
+   logout(){
+            localStorage.userId = "";
+            localStorage.token = "";
+            localStorage.moderation = "";
+            localStorage.removeItem();
+  },
+}
+}
+</script>
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100&display=swap');

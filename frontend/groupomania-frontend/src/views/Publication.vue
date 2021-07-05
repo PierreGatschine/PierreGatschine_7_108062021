@@ -31,6 +31,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    #nav a.router-link-exact-active {
+    color: #0f4475;
+    }
 
     .card-publication {
         display: flex;

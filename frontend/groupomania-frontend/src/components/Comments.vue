@@ -1,10 +1,9 @@
 <template>
     
     <div class="card-comments">
-        <div class="card-comments-allPosts" v-for="(post, index) in allPosts" v-bind:key="index">
+        <div class="card-comments-allPosts" v-for="(comment, index) in allComments" v-bind:key="index">
             <h4 class="card-comments-allPosts__name"> {{ comment.firstname }} {{ comment.lastname }}</h4>
             <p class="card-comments-allPosts_content">{{ comment.comContent }}</p>
-
         </div>
         <div class="card-comments__addComments">
             <div class="card-comments__title">
@@ -134,7 +133,10 @@ export default {
         flex:1;
         min-width: 100px;
         font-weight: 500;
-        color: #323232;
+        color:antiquewhite;
+            &::placeholder {
+                color:antiquewhite;
+            } 
     }  
 
 </style>

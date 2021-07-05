@@ -49,7 +49,8 @@ export default {
                     let rep = JSON.parse(response.data);
                     this.message = rep.message;
                     this.msg = true;
-                    this.form = false;         
+                    this.form = false;  
+                    window.location.assign('http://localhost:8081/Publication');
                 })
                 .catch(error => {
                     console.log(error); 

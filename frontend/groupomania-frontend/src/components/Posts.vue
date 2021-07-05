@@ -21,6 +21,7 @@
                     <i class="btn-icon-2__comment__icon far fa-comments"></i>
                     </button>
                 </div>
+
                 <div class="btn-icon-3" @click.stop="goDialogUpPost(post.title, post.content, post.id)">
                     <button class="btn-icon-3__update">
                         <i class="btn-icon-3__update__icon far fa-edit"></i>
@@ -33,20 +34,64 @@
                 </div>
             </div>
             <div class="display-comments" v-if="postId === post.id">
-                <comments /> 
+                <div class="card-comments">
+                    <div class="card-comments-allPosts" v-for="(comment, index) in allComments" v-bind:key="index">
+                        <h4 class="card-comments-allPosts__name"> {{ comment.firstname }} {{ comment.lastname }}</h4>
+                        <p class="card-comments-allPosts_content">{{ comment.comContent }}</p>
+                    </div>
+                    <div class="card-comments__addComments">
+                        <div class="card-comments__title">
+                            <h3>Commenter</h3>
+                        </div>
+                        <div class="form-row">
+                            <textarea v-model="dataCom.content" :rules="comContentRules" :counter="255" class="form-row__textarea" name="content" rows="3" cols="53" placeholder="Commentaire"></textarea>
+                        </div>
+                        <button :disabled="!valid" @click="sendCom(post.id)" class="button" >
+                            <span>Commenter</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- <comments />  -->
             </div>
+            
+                <v-dialog v-model="dialogUpPost" class="post-update" v-if="postId === post.id">
+                    <div class="post-update-card">
+                        <div class="post-update-card__title">
+                            <h3>Modifier le post</h3>
+                        </div>
+                        <v-form class="post-update-card__form" ref="form" v-model="valid">
+                            <div class="form-row">
+                                <input v-model="dataPost.title" :rules="titleRules" :counter="50" class="form-input form-input__title" type="text" placeholder="Titre"/>
+                            </div>
+                            <div class="form-row">
+                                <textarea v-model="dataPost.content" :rules="contentRules" class="form-input form-input__content" name="content" rows="6" cols="51" placeholder="Contenu"></textarea>
+                            </div>
+                        </v-form>
+                        <div class="btn-group">
+                            <button text @click="dialogUpPost=false" class="button btn-alert" >
+                                <span>Annuler</span>
+                            </button>
+                            <button text :disabled="!valid" @click="updatePost()" class="button btn-update" >
+                                <span>Modifier</span>
+                            </button>
+                        </div>
+                        
+                    </div>
+                </v-dialog>
+            
+            
         </div>
     </div>
 </template>
 
 <script>
 import axios from "axios"
-import Comments from "./Comments.vue"
+/* import Comments from "./Comments.vue" */
 
 export default {
     name : "Posts",
     components: {
-       Comments, 
+      /*  Comments,  */
     },
     data(){
         return{
@@ -57,7 +102,9 @@ export default {
             allLikes: [],
             allComments: [],
             postId: "",
-    
+            dialogUpCom: false,
+            dialogUpPost: false,
+
             valid: true,
             titleRules: [
                 v => !!v || 'Titre de la publication',
@@ -77,6 +124,12 @@ export default {
                 userId:"",
             },
             dataPostS: "",
+            dataCom:{
+                id: "",
+                content:"",
+                userId: ""
+            },
+            dataComS: "",
             dataLike:{
                 userId: "",
                 nbLikes: "",
@@ -84,12 +137,9 @@ export default {
                 liked: false,
             },
             dataLikeS: "",
-            dataCom:{
-                id: "",
-                content:"",
-                userId: ""
-            },
-            dataComS: "",
+            form: true
+            
+            
         }
     },
     methods: {
@@ -142,6 +192,26 @@ export default {
         },
         afficheFormCom(){
             this.afficheFrmCm = true
+        },
+        sendCom(pId){
+            this.dataCom.userId = this.userId;
+            this.dataComS = JSON.stringify(this.dataCom);
+            axios.post("http://localhost:3000/api/posts/" + pId + "/comments", this.dataComS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
+                .then(response => {
+                    let rep = JSON.parse(response.data);
+                    console.log(rep.message);
+                    this.dataCom.content="";
+                    this.dataCom.userId="";
+                    this.afficheFrmCm=false;
+                    window.location.assign('http://localhost:8081/Publication');
+
+
+                })
+                .catch(error => {
+                    console.log(error); 
+                    this.message=error;
+                    this.msg=true
+                });
         },
         likePost(postId, nbLikes){
             this.allLikes.forEach(element => {
@@ -218,7 +288,7 @@ export default {
         &__subtitle {
             font-style: italic;
             font-weight: 400;
-            font-size: 14px;
+            font-size: 16px;
         }
     }
     .card-post-content {
@@ -228,7 +298,7 @@ export default {
         }
         &__content {
             font-weight: 400;
-            font-size: 14px;
+            font-size: 16px;
         }
     }
 
@@ -296,5 +366,107 @@ export default {
         display: flex;
         justify-content: end;
     }
+
+    .post-update-card{
+        max-width: 100%;
+        width: 500px;
+        background: transparent;
+        /* background: #8c8c8c; */
+        border-radius: 16px;
+        padding: 20px;
+    }
+
+    .post-update-card__title {
+        text-align: start;
+        width: 100%;
+    }
+
+    .form-row {
+        display: flex;
+        margin: 16px 0px;
+        gap:1rem;
+        flex-wrap: wrap;
+    }
+
+    .form-input {
+        padding:8px;
+        border: none;
+        border-radius: 8px;
+        background:antiquewhite;
+        font-weight: 500;
+        font-size: 16px;
+        flex:1;
+        /* min-width: 100px; */
+        font-weight: 700;
+        color: antiquewhite;
+        &__title {
+            background: #1976cd;
+        }
+        &__content {
+            background: #1976cd;
+        }
+        &::placeholder {
+        color:antiquewhite;
+        } 
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .btn-alert {
+        background: rgb(241, 78, 78);
+    }
+    
+    .btn-alert:hover {
+        background: red;
+    }
+
+    .btn-update {
+        background: #2196f3;
+    }
+
+    .btn-update:hover {
+        background: #1976cd;
+    }
+
+     .card-comments{
+        max-width: 100%;
+        width: 500px;
+        background: transparent;
+        /* background: #8c8c8c; */
+        border-radius: 16px;
+        padding: 20px;
+    }
+    
+    .card-comments__title {
+        text-align: start;
+    }
+
+    .form-row {
+        display: flex;
+        margin: 16px 0px;
+        gap:16px;
+        flex-wrap: wrap;
+    }
+
+    .form-row__textarea {
+        padding:8px;
+        border: none;
+        border-radius: 8px;
+        background: #1976cd;
+       /*  background:antiquewhite; */
+        font-weight: 500;
+        font-size: 16px;
+        flex:1;
+        min-width: 100px;
+        font-weight: 500;
+        color:antiquewhite;
+            &::placeholder {
+                color:antiquewhite;
+            } 
+    }  
+
 
 </style>
