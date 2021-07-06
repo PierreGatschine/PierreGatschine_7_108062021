@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <div id="nav">
+   <!--  <div id="nav">
       <router-link to="/login">Connexion</router-link> |
       <router-link to="/" @click="logout">Déconnexion</router-link>
-    </div>
+    </div> -->
     <router-view/>
   </div>
 </template>

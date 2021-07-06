@@ -1,6 +1,10 @@
 <template>
 
    <div class="card-publication">
+        <div id="nav">
+            <router-link to="/" @click="logout"><i class="icon__deconnexion fas fa-power-off"></i></router-link> |
+            <router-link to="/profile"><i class="icon__profil far fa-user-circle"></i></router-link>
+        </div>
         <h1 class="card__title">Messages</h1>
         <edit-post /> 
         <posts />
@@ -31,9 +35,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    #nav a.router-link-exact-active {
-    color: #0f4475;
+    #nav {
+        font-size: 25px;
+        padding-bottom: 0;
     }
+
+    .fas, .far {
+        padding: 1rem;
+        font-size: 25px;
+    }
+
+    .fa-power-off {  
+        color: #0f4475;
+    }
+
+
 
     .card-publication {
         display: flex;

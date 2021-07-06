@@ -1,7 +1,14 @@
 <template>
+  
   <div class="home">
+    <div id="nav">
+      <router-link to="/login">Connexion</router-link> |
+      <router-link to="/" @click="logout">Déconnexion</router-link>
+    </div>
     <Header msg="Messagerie" />
+     <router-view/>
   </div>
+   
 </template>
 
 <script>
