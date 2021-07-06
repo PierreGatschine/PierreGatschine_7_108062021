@@ -37,7 +37,7 @@
                 <div class="card-comments">
                     <div class="card-comments-allPosts" v-for="(comment, index) in allComments" v-bind:key="index">
                         <h4 class="card-comments-allPosts__name"> {{ comment.firstname }} {{ comment.lastname }}</h4>
-                        <p class="card-comments-allPosts_content">{{ comment.comContent }}</p>
+                        <p class="card-comments-allPosts__content">{{ comment.comContent }}</p>
                     </div>
                     <div class="card-comments__addComments">
                         <div class="card-comments__title">
@@ -46,7 +46,7 @@
                         <div class="form-row">
                             <textarea v-model="dataCom.content" :rules="comContentRules" :counter="255" class="form-row__textarea" name="content" rows="3" cols="53" placeholder="Commentaire"></textarea>
                         </div>
-                        <button :disabled="!valid" @click="sendCom(post.id)" class="button" >
+                        <button :disabled="!valid" @click="sendCom(post.id)" class="button btn-comment" >
                             <span>Commenter</span>
                         </button>
                     </div>
@@ -283,7 +283,8 @@ export default {
         border-radius: 16px;
         &__title {
             font-weight: 700;
-            font-size: 20px;
+            font-size: 22px;
+            color: #2196f3;
         }
         &__subtitle {
             font-style: italic;
@@ -298,7 +299,7 @@ export default {
         }
         &__content {
             font-weight: 400;
-            font-size: 16px;
+            font-size: 18px;
         }
     }
 
@@ -423,11 +424,11 @@ export default {
         background: red;
     }
 
-    .btn-update {
+    .btn-comment, .btn-update {
         background: #2196f3;
     }
 
-    .btn-update:hover {
+    .btn-comment:hover, .btn-update:hover {
         background: #1976cd;
     }
 
@@ -466,7 +467,27 @@ export default {
             &::placeholder {
                 color:antiquewhite;
             } 
+    }
+
+    .card-comments-allPosts {
+        width: 100%;
+        padding: 1rem;
+        text-shadow: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3));
+        border-bottom: 1px solid #0f4475;
+        &__name {
+            font-size: 20px;
+            color: #2196f3;
+        }
+        &__content {
+            font-style: italic;
+            font-weight: 700;
+            font-size: 20px;
+        }
     }  
 
+    .card-comments__addComments {
+        padding: 1.5rem 0;
+        border-bottom: 1px solid #0f4475;
+    }
 
 </style>
