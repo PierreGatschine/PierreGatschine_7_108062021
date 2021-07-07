@@ -83,34 +83,34 @@ export default {
         padding:8px;
         border: none;
         border-radius: 8px;
-        background:antiquewhite;
+        background:#1768b3;
         font-weight: 500;
-        font-size: 16px;
+        font-size: 20px;
         flex:1;
         min-width: 100px;
         font-weight: 700;
-        color: #323232;
+        color: antiquewhite;
     }
 
      .form-row__input::placeholder {
-        color:#979797;
+        color:antiquewhite;
     } 
 
     .form-row__textarea {
         padding:8px;
         border: none;
         border-radius: 8px;
-        background:antiquewhite;
+        background:#1768b3;
         font-weight: 500;
-        font-size: 16px;
+        font-size: 20px;
         flex:1;
         min-width: 100px;
-        font-weight: 500;
-        color: #323232;
+        font-weight: 300;
+        color: antiquewhite;
     }  
 
     .form-row__textarea::placeholder {
-        color:#979797;
+        color: antiquewhite;
     }
 
     .button:hover {

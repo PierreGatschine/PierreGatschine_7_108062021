@@ -6,7 +6,7 @@
             <router-link to="/profile"><i class="icon__profil far fa-user-circle"></i></router-link>
         </div>
 
-        <h1 class="card__title">Messages</h1>
+      <h1>Messages</h1>
         
         <edit-post /> 
         <posts />
@@ -61,8 +61,9 @@ export default {
         gap: 1.5rem;
     }
 
-    .card__title {
-        text-align: center;
+    h1 {  
+        align-self: center;
+        font-weight: 700;
         margin-bottom: 16px;
     }
 

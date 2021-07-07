@@ -68,14 +68,17 @@
                                 <textarea v-model="dataPost.content" :rules="contentRules" class="form-input form-input__content" name="content" rows="6" cols="51" placeholder="Contenu"></textarea>
                             </div>
                         </v-form>
-                        <div class="btn-group">
+                        <button  @click="updatePost()" class="button btn-update" >
+                            <span>Modifier</span>
+                        </button>
+                        <!-- <div class="btn-group">
                             <button text @click="dialogUpPost=false" class="button btn-alert" >
                                 <span>Annuler</span>
                             </button>
-                            <button text :disabled="!valid" @click="updatePost()" class="button btn-update" >
+                            <button  @click="updatePost()" class="button btn-update" >
                                 <span>Modifier</span>
                             </button>
-                        </div>
+                        </div> -->
                         
                     </div>
                 </div>
@@ -107,8 +110,8 @@ export default {
             showModalComments: false,
             showModalUpdate: false,
 
-            dialogUpCom: false,
-            dialogUpPost: false,
+           /*  dialogUpCom: false,
+            dialogUpPost: false, */
 
             valid: true,
             titleRules: [
@@ -152,7 +155,7 @@ export default {
             this.dataPost.title = postTitle;
             this.dataPost.content = postContent;
             this.dataPost.id = postId;
-            this.dialogUpPost = true;
+           /*  this.dialogUpPost = true; */
         },
         updatePost(){
             this.dataPost.userId = localStorage.userId;
@@ -165,7 +168,7 @@ export default {
                     this.dataPost.content = "";
                     this.dataPost.userId = "";
                     this.dataPost.id = "";
-                    this.dialogUpPost = false;
+                  /*   this.dialogUpPost = false; */
                     window.location.assign('http://localhost:8081/Publication');
                 })
                 .catch(error => {
@@ -303,8 +306,8 @@ export default {
             font-size: 22px;
         }
         &__content {
-            font-weight: 400;
-            font-size: 18px;
+            font-weight: 300;
+            font-size: 20px;
         }
     }
 
@@ -312,7 +315,16 @@ export default {
         text-decoration: none;
         border: none;
         background: transparent;
-        color: antiquewhite;  
+        color: antiquewhite;
+        transition: .8s color;
+         
+    }
+
+    button:hover {
+    cursor:pointer;
+    color: #2196f3;
+    
+    
     }
 
     .btn-icon {
@@ -325,13 +337,14 @@ export default {
     .btn-icon-heart {
         display: flex;
         gap: .6rem;
+        transition: .8s font-size;
         
 
         &--click {
             
             &__icon {
                 font-size: 20px; 
-            }
+            }          
 
             &__text {
                 font-size: 20px; 
