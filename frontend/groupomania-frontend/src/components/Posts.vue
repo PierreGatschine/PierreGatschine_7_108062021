@@ -10,21 +10,22 @@
                 <div class="card-post-content__content">{{ post.content }}</div>
             </div>
             <div class="btn-icon">
-                <div class="btn-icon-1">
-                    <button class="btn-icon-1__heart" @click="likePost(post.id, post.likes)">
-                    <i class=" btn-icon-1__heart__icon far fa-heart"></i>
+                <div class="btn-icon-heart">
+                    <button class="btn-icon-heart--click" @click="likePost(post.id, post.likes)">
+                    <i class=" btn-icon-heart--click__icon far fa-heart"></i>
                     </button>
-                    <p class="btn-icon-1__heart__text">{{ post.likes }}</p>
+                    <p class="btn-icon-heart--click__text">{{ post.likes }}</p>
                 </div>
-                <div class="btn-icon-2" v-if="!afficheFrmCm" @click="afficheCom(post.id)">
-                    <button class="btn-icon-2__comment">
-                    <i class="btn-icon-2__comment__icon far fa-comments"></i>
+                <!-- <div class="btn-icon-comment" @click="showModalUpdate = !showModalUpdate" v-if="!afficheFrmCm" @click="afficheCom(post.id)"> -->
+                <div class="btn-icon-comment" @click="showModalComments = !showModalComments"  @click.stop="afficheCom(post.id)">
+                    <button class="btn-icon-comment--click">
+                    <i class="btn-icon-comment--click__icon far fa-comments"></i>
                     </button>
                 </div>
 
-                <div class="btn-icon-3" @click.stop="goDialogUpPost(post.title, post.content, post.id)">
-                    <button class="btn-icon-3__update">
-                        <i class="btn-icon-3__update__icon far fa-edit"></i>
+                <div class="btn-icon-update" @click="showModalUpdate = !showModalUpdate" @click.stop="goDialogUpPost(post.title, post.content, post.id)">
+                    <button class="btn-icon-update--click">
+                        <i class="btn-icon-update--click__icon far fa-edit"></i>
                     </button>
                 </div>
                 <div class="btn-icon-4" @click="deletePost(post.id)">
@@ -33,7 +34,7 @@
                     </button>
                 </div>
             </div>
-            <div class="display-comments" v-if="postId === post.id">
+            <div v-show="showModalComments" class="modal display-comments" v-if="postId === post.id">
                 <div class="card-comments">
                     <div class="card-comments-allPosts" v-for="(comment, index) in allComments" v-bind:key="index">
                         <h4 class="card-comments-allPosts__name"> {{ comment.firstname }} {{ comment.lastname }}</h4>
@@ -54,7 +55,7 @@
                 <!-- <comments />  -->
             </div>
             
-                <v-dialog v-model="dialogUpPost" class="post-update" v-if="postId === post.id">
+                <div v-show="showModalUpdate" class="modal post-update" v-if="postId === post.id">
                     <div class="post-update-card">
                         <div class="post-update-card__title">
                             <h3>Modifier le post</h3>
@@ -77,7 +78,7 @@
                         </div>
                         
                     </div>
-                </v-dialog>
+                </div>
             
             
         </div>
@@ -102,6 +103,10 @@ export default {
             allLikes: [],
             allComments: [],
             postId: "",
+
+            showModalComments: false,
+            showModalUpdate: false,
+
             dialogUpCom: false,
             dialogUpPost: false,
 
@@ -307,7 +312,7 @@ export default {
         text-decoration: none;
         border: none;
         background: transparent;
-        color: #faebd7;  
+        color: antiquewhite;  
     }
 
     .btn-icon {
@@ -317,12 +322,12 @@ export default {
         padding: 2rem 1rem 1rem .5rem;
     }
 
-    .btn-icon-1 {
+    .btn-icon-heart {
         display: flex;
         gap: .6rem;
         
 
-        &__heart {
+        &--click {
             
             &__icon {
                 font-size: 20px; 
@@ -336,8 +341,8 @@ export default {
 
     }
 
-    .btn-icon-2 {
-        &__comment {
+    .btn-icon-comment {
+        &--click {
 
             &__icon {
                 font-size: 20px; 
@@ -345,8 +350,8 @@ export default {
         }
     }
 
-    .btn-icon-3 {
-        &__update {
+    .btn-icon-update {
+        &--click {
 
             &__icon {
                 font-size: 20px; 

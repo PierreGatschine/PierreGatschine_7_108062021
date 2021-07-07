@@ -34,6 +34,7 @@ export default {
             allComments: [],
             postId: "",
             valid: true,
+
             titleRules: [
                 v => !!v || 'Titre de la publication',
                 v => (v && v.length <= 50) || 'Le titre doit faire moins de 50 caractères',
@@ -45,6 +46,7 @@ export default {
                 v => !!v || 'Ecrivez votre commentaire',
                 v => (v && v.length <= 255) || 'Le commentaire doit faire moins de 255 caractères',
             ],
+            
             dataCom:{
                 id: "",
                 content:"",

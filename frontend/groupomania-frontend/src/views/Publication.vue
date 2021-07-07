@@ -5,10 +5,12 @@
             <router-link to="/" @click="logout"><i class="icon__deconnexion fas fa-power-off"></i></router-link> |
             <router-link to="/profile"><i class="icon__profil far fa-user-circle"></i></router-link>
         </div>
+
         <h1 class="card__title">Messages</h1>
+        
         <edit-post /> 
         <posts />
-        <!-- <comments /> -->  
+ 
     </div>
 
 </template>
@@ -18,7 +20,7 @@
 /*  */
 import EditPost from '../components/EditPost.vue';
 import Posts from '../components/Posts.vue';
-/* import Comments from "../components/Comments.vue" */
+
 
 
 export default {
@@ -26,7 +28,7 @@ export default {
     components: {
         EditPost,
         Posts,
-        /* Comments */
+        
     } 
     
     
@@ -60,7 +62,7 @@ export default {
     }
 
     .card__title {
-        text-align: start;
+        text-align: center;
         margin-bottom: 16px;
     }
 

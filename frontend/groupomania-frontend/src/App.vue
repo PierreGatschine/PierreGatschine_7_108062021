@@ -60,10 +60,6 @@ body {
   }
 }
 .card {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; */
   max-width: 100%;
   width: 540px;
   background:#32A2F9;

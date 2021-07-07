@@ -33,6 +33,7 @@ export default {
     data(){
         return{
             valid: true,
+            
             firstnameRules: [
                 v => !!v || 'Renseignez votre prénom',
                 v => /^[A-Za-z]+$/.test(v) || "Votre prénom n'est pas valide",
