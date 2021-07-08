@@ -94,7 +94,7 @@ export default {
             })
             .then(response => {
                 console.log(response);
-                setTimeout(() => this.$router.push('Publication'), 1500)  
+                setTimeout(() => this.$router.push('/login'), 1500)  
             })
             .catch(error => {
                 console.log(error);
