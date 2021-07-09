@@ -20,6 +20,14 @@ export default {
   name: 'Home',
   components: {
     Header
+  },
+  methods: {
+        logout(){
+            localStorage.userId = "";
+            localStorage.token = "";
+            localStorage.role = "";
+            localStorage.removeItem();
+        },
   }
 }
 </script>

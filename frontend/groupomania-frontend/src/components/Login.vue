@@ -70,7 +70,7 @@ export default {
                     let log = JSON.parse(response.data);
                     localStorage.userId = log.userId;
                     localStorage.token = log.token;
-                    localStorage.moderation = log.moderation;
+                    localStorage.role = log.role;
                     this.$router.push('/Publication');  
                 })
                 .catch(error => {
