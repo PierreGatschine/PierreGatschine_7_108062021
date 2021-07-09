@@ -6,7 +6,7 @@ const app = express();
 
 const usersRoutes = require("./routes/users");
 const postsRoutes = require("./routes/post");
-const moderationRoutes = require("./routes/moderation")
+const adminRoutes = require("./routes/admin")
 
 app.use(helmet()); 
 app.use(express.json());
@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 app.use("/images", express.static(path.join(__dirname, "images"))); 
 app.use("/api/auth", usersRoutes);
 app.use("/api/posts", postsRoutes);
-app.use("/api/moderation", moderationRoutes);
+app.use("/api/admin", adminRoutes);
 
 
 module.exports = app;

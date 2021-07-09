@@ -2,7 +2,7 @@
 const mysql = require("mysql2");
 const connection = require("./db-config");
 
-class Moderation {
+class Admin {
   constructor() {}
 
   getAllPosts() {
@@ -47,4 +47,4 @@ class Moderation {
   }
 }
 
-module.exports = Moderation;
+module.exports = Admin;

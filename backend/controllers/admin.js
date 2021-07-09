@@ -2,18 +2,18 @@
 require("dotenv").config({ path: "./config/.env" });
 
 const jwt = require("jsonwebtoken");
-const Moderation = require("../models/Moderation.js");
+const Moderation = require("../models/Admin.js");
 
-const moderations = new Moderation();
+const admins = new Moderation();
 
 const tokenRandom = process.env.TOKEN_RANDOM;
 
 exports.getAllPosts = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
-  const mod = decodedToken.moderation;
-  if (mod == 1) {
-    moderations.getAllPosts().then((response) => {
+  const role = decodedToken.role;
+  if (role == 1) {
+    admins.getAllPosts().then((response) => {
       res.status(200).json(JSON.stringify(response));
     });
   } else {
@@ -23,12 +23,12 @@ exports.getAllPosts = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
-  const mod = decodedToken.moderation;
-  console.log(mod);
-  if (mod == 1) {
+  const role = decodedToken.role;
+  console.log(role);
+  if (role == 1) {
     const postId = req.params.id;
     let sqlInserts = [postId];
-    moderations.deletePost(sqlInserts).then((response) => {
+    admins.deletePost(sqlInserts).then((response) => {
       res.status(200).json(JSON.stringify(response));
     });
   } else {
@@ -38,9 +38,9 @@ exports.deletePost = (req, res, next) => {
 exports.getAllComments = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
-  const mod = decodedToken.moderation;
-  if (mod == 1) {
-    moderations.getAllComments().then((response) => {
+  const role = decodedToken.role;
+  if (role == 1) {
+    admins.getAllComments().then((response) => {
       res.status(200).json(JSON.stringify(response));
     });
   } else {
@@ -50,11 +50,11 @@ exports.getAllComments = (req, res, next) => {
 exports.deleteComment = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
-  const mod = decodedToken.moderation;
-  if (mod == 1) {
+  const role = decodedToken.role;
+  if (role == 1) {
     const commentId = req.params.id;
     let sqlInserts = [commentId];
-    moderations.deleteComment(sqlInserts).then((response) => {
+    admins.deleteComment(sqlInserts).then((response) => {
       res.status(200).json(JSON.stringify(response));
     });
   } else {
