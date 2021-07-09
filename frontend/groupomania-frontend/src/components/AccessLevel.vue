@@ -172,8 +172,7 @@ button {
     border: none;
     background: transparent;
     color: #2196f3;
-    transition: .8s color;
-         
+    transition: .8s color;     
 }
 
 button:hover {
@@ -191,7 +190,6 @@ button:hover {
 
 i {
     font-size: 25px;
-    
 }
 
 </style>

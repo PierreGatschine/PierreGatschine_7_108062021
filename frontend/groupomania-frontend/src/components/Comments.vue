@@ -1,5 +1,4 @@
 <template>
-    
     <div class="card-comments">
         <div class="card-comments-allPosts" v-for="(comment, index) in allComments" v-bind:key="index">
             <h4 class="card-comments-allPosts__name"> {{ comment.firstname }} {{ comment.lastname }}</h4>
@@ -12,13 +11,11 @@
             <div class="form-row">
                 <textarea v-model="dataCom.content" :rules="comContentRules" :counter="255" class="form-row__textarea" name="content" rows="3" cols="53" placeholder="Commentaire"></textarea>
             </div>
-            <button :disabled="!valid" @click="sendCom(post.id)" class="button" >
+            <button @click="sendCom(post.id)" class="button" >
                 <span>Commenter</span>
             </button>
         </div>
     </div>
-    
-    
 </template>
 
 <script>
@@ -30,10 +27,8 @@ export default {
         return{
             userId: "",
             admin: "",
-            afficheFrmCm: false,
             allComments: [],
             postId: "",
-            valid: true,
 
             titleRules: [
                 v => !!v || 'Titre de la publication',
@@ -65,7 +60,6 @@ export default {
                     console.log(rep.message);
                     this.dataCom.content="";
                     this.dataCom.userId="";
-                    this.afficheFrmCm=false;
                 })
                 .catch(error => {
                     console.log(error); 
@@ -82,8 +76,6 @@ export default {
                     console.log(rep.message);
                     this.dataCom.content = "";
                     this.dataCom.userId = "";
-                    this.afficheFrmCm = false;
-                    this.dialogUpCom = false;
                     window.location.assign('http://localhost:8081/Publication');
                 })
                 .catch(error => {
@@ -94,9 +86,7 @@ export default {
         afficheForm(){
             this.$router.push('/Publication')
         },
-        afficheFormCom(){
-            this.afficheFrmCm = true
-        },
+
     }
     
 }
