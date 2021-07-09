@@ -7,9 +7,9 @@
             <input  v-model="dataPost.title" :rules="titleRules" :counter="50" class="form-row__input" type="text" placeholder="Titre"/>
         </div>
         <div class="form-row">
-            <textarea v-model="dataPost.content" color="black" :rules="contentRules" class="form-row__textarea" name="content" rows="10" cols="55" placeholder="Contenu"></textarea>
+            <textarea v-model="dataPost.content" :rules="contentRules" class="form-row__textarea" name="content" rows="10" cols="55" placeholder="Contenu"></textarea>
         </div>
-        <button @click="sendPost" class="button" >
+        <button :disabled="!valid" @click="sendPost" class="button" >
             <span>Publier</span>
         </button>
     </div>

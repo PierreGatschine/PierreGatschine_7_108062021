@@ -1,8 +1,8 @@
 <template>
     <div class="card-comments">
-        <div class="card-comments-allPosts" v-for="(comment, index) in allComments" v-bind:key="index">
-            <h4 class="card-comments-allPosts__name"> {{ comment.firstname }} {{ comment.lastname }}</h4>
-            <p class="card-comments-allPosts_content">{{ comment.comContent }}</p>
+        <div class="card-comments-allComments" v-for="(comment, index) in allComments" v-bind:key="index">
+            <h4 class="card-comments-allComments__name"> {{ comment.firstname }} {{ comment.lastname }}</h4>
+            <p class="card-comments-allComments__content">{{ comment.comContent }}</p>
         </div>
         <div class="card-comments__addComments">
             <div class="card-comments__title">
