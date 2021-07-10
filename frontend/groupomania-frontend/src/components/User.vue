@@ -245,7 +245,7 @@ export default {
         flex-direction: column;
         justify-content: space-around;
         gap: 2rem;
-        background: rgb(128, 128, 128, .3);
+        background: rgb(25, 118, 205, .2);
 
         &__form-row {
             display: flex;
@@ -256,7 +256,7 @@ export default {
                 padding:8px;
                 border: none;
                 border-radius: 8px;
-                background:#1976cd;
+                background:rgb(15, 68, 117, .3);
                 font-weight: 500;
                 font-size: 16px;
                 flex:1;

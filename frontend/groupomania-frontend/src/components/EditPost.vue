@@ -4,14 +4,17 @@
            <h3>Nouvelle publication</h3>
         </div>
         <div class="form-row">
-            <input  v-model="dataPost.title" :rules="titleRules" :counter="50" class="form-row__input" type="text" placeholder="Titre"/>
+            <input  v-model="dataPost.title" :rules="titleRules" :counter="50" class="form-row__input" type="text" placeholder="Titre" required/>
+
         </div>
         <div class="form-row">
-            <textarea v-model="dataPost.content" :rules="contentRules" class="form-row__textarea" name="content" rows="10" cols="55" placeholder="Contenu"></textarea>
+            <textarea v-model="dataPost.content" :rules="contentRules" class="form-row__textarea" name="content" rows="10" cols="55" placeholder="Contenu" required></textarea>
         </div>
         <button :disabled="!valid" @click="sendPost" class="button" >
             <span>Publier</span>
+            <span v-if="msg">{{ message }}</span>
         </button>
+    
     </div>
 </template>
 
@@ -22,15 +25,17 @@ export default {
     name: "EditPost",
     data(){
         return{
+            
             valid: true,
+            
             titleRules: [
-                v => !!v || 'Titre de la publication',
-                v => (v && v.length <= 50) || 'Le titre doit faire moins de 50 caractères',
+                input => !!input || 'Titre de la publication',
+                input => (input && input.length <= 50) || 'Le titre doit faire moins de 50 caractères',
 
-            ],
+            ], 
             contentRules: [
-                v => !!v || 'Ecrivez votre message',
-            ],
+                textarea => !!textarea || 'Ecrivez votre message',
+            ], 
             dataPost:{
                 title: "",
                 content:"",
@@ -39,11 +44,13 @@ export default {
             dataPostS: "",
             msg: false,
             message: "",
+
         }
     },
     methods: {
-        sendPost(){
-            this.dataPostS = JSON.stringify(this.dataPost);
+        sendPost() {
+            
+           this.dataPostS = JSON.stringify(this.dataPost);
             axios.post("http://localhost:3000/api/posts/", this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
                     let rep = JSON.parse(response.data);
@@ -55,10 +62,12 @@ export default {
                 .catch(error => {
                     console.log(error); 
                     this.message = error;
+                    this.errors.emptyContent = false;
                     this.msg = true
                 });
-        },
+      }      
     },
+    
 }
 </script>
 

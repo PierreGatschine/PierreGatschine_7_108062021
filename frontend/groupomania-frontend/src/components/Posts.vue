@@ -70,20 +70,9 @@
                         </v-form>
                         <button  @click="updatePost()" class="button btn-update" >
                             <span>Modifier</span>
-                        </button>
-                        <!-- <div class="btn-group">
-                            <button text @click="dialogUpPost=false" class="button btn-alert" >
-                                <span>Annuler</span>
-                            </button>
-                            <button  @click="updatePost()" class="button btn-update" >
-                                <span>Modifier</span>
-                            </button>
-                        </div> -->
-                        
+                        </button> 
                     </div>
                 </div>
-            
-            
         </div>
     </div>
 </template>
