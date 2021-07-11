@@ -39,6 +39,7 @@ CREATE TABLE `posts`
   `title` varchar
 (50) NOT NULL,
   `content` text NOT NULL,
+  `media_url` longtext,
   `date` datetime NOT NULL,
   `likes` int unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY

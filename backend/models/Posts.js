@@ -7,7 +7,7 @@ class Posts {
 
   getAllPosts() {
     let sql =
-      "SELECT posts.id, posts.userId, posts.title, posts.content, DATE_FORMAT(DATE(posts.date), '%d/%m/%Y') AS date, TIME(posts.date) AS time, posts.likes, users.lastname, users.firstname FROM posts JOIN users ON posts.userId = users.id ORDER BY posts.date DESC";
+      "SELECT posts.id, posts.userId, posts.title, posts.content, posts.media_url, DATE_FORMAT(DATE(posts.date), '%d/%m/%Y') AS date, TIME(posts.date) AS time, posts.likes, users.lastname, users.firstname FROM posts JOIN users ON posts.userId = users.id ORDER BY posts.date DESC";
     return new Promise((resolve) => {
       connection.query(sql, function (err, result) {
         if (err) throw err;
@@ -16,7 +16,7 @@ class Posts {
     });
   }
   createPost(sqlInserts) {
-    let sql = "INSERT INTO posts VALUES(NULL, ?, ?, ?, NOW(), 0)";
+    let sql = "INSERT INTO posts VALUES(NULL, ?, ?, ?, ?, NOW(), 0)";
     sql = mysql.format(sql, sqlInserts);
     return new Promise((resolve) => {
       connection.query(sql, function (err, result) {
@@ -33,7 +33,7 @@ class Posts {
         if (err) throw err;
         if (sqlInserts2[3] == result[0].userId) {
           let sql2 =
-            "UPDATE posts SET title = ?, content = ? WHERE id = ? AND userId = ?";
+            "UPDATE posts SET title = ?, content = ?, media_url = ?, WHERE id = ? AND userId = ?";
           sql2 = mysql.format(sql2, sqlInserts2);
           connection.query(sql2, function (err, result) {
             if (err) throw err;

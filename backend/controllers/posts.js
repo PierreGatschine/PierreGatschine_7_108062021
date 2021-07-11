@@ -3,6 +3,7 @@ require("dotenv").config({ path: "./config/.env" });
 
 const jwt = require("jsonwebtoken");
 const Posts = require("../models/Posts.js");
+const fs = require("fs");
 
 const posts = new Posts();
 
@@ -14,8 +15,11 @@ exports.getAllPosts = (req, res, next) => {
   });
 };
 exports.createPost = (req, res, next) => {
+  const media_url = req.file ? req.file.filename : null;
+  console.log(media_url);
   const { title, userId, content } = req.body;
-  let sqlInserts = [userId, title, content];
+  let sqlInserts = [userId, title, content, media_url];
+  /* sqlInserts.push(media_url); */
   posts.createPost(sqlInserts).then((response) => {
     res.status(201).json(JSON.stringify(response));
   });
