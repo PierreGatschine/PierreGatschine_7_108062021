@@ -8,9 +8,10 @@
            <!--  <p v-if="msg">{{ message }}</p> -->
         </div>
 
-      <h1>Messages</h1>
+        <h1>Messages</h1>
         
         <edit-post /> 
+        <router-view />
         <posts />
 
         <router-view />
@@ -31,6 +32,9 @@ export default {
         EditPost,
         Posts, 
     },
+
+    showModalPost: false,
+
     data(){
         return {
             role: "", 
