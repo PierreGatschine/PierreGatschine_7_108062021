@@ -28,10 +28,10 @@ exports.updatePost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
   const userId = decodedToken.userId;
-  const { title, content } = req.body;
+  const { title, content, media_url } = req.body;
   const postId = req.params.id;
   let sqlInserts1 = [postId];
-  let sqlInserts2 = [title, content, postId, userId];
+  let sqlInserts2 = [title, content, media_url, postId, userId];
   posts
     .updatePost(sqlInserts1, sqlInserts2)
     .then((response) => {
