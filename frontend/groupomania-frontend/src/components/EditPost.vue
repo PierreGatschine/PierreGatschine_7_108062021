@@ -11,7 +11,7 @@
         </div>
 
         <div class="form-row">
-            <textarea v-model="dataPost.content" :rules="contentRules" class="form-row__textarea" name="content" rows="10" cols="55" placeholder="Contenu"></textarea>
+            <textarea v-model="dataPost.content" class="form-row__textarea" name="content" rows="10" cols="55" placeholder="Contenu"></textarea>
             <p class="form-row__textarea__alert" v-if="errors.emptyContent">
                 * Merci de compléter les champs
             </p>
@@ -35,16 +35,11 @@ export default {
     name: "EditPost",
     data(){
         return{
-            contenu: null, 
             errors: {
                 emptyTitle: false,
                 emptyContent: false
             },
             valid: true,
-            
-            contentRules: [
-                v => !!v || 'Ecrivez votre message',
-            ],
             
             dataPost:{
                 title: "",
@@ -66,11 +61,12 @@ export default {
             
         },
         sendPost(){
+                
             if (!this.dataPost.title || !this.dataPost.content) {
                 this.errors.emptytitle = true;
                 this.errors.emptyContent = true; 
-                return console.log("content can't be empty");
-      }
+                return console.log("content can't be empty"); 
+            }
             /* this.handleFileUpload = this.dataPostS.media_url; */
             this.dataPostS = JSON.stringify(this.dataPost);
             console.log(this.dataPostS);

@@ -9,7 +9,10 @@
             <h3>Commenter</h3>
             </div>
             <div class="form-row">
-                <textarea v-model="dataCom.content" :rules="comContentRules" :counter="255" class="form-row__textarea" name="content" rows="3" cols="53" placeholder="Commentaire"></textarea>
+                <textarea v-model="dataCom.content" class="form-row__textarea" name="content" rows="3" cols="53" placeholder="Commentaire"></textarea>
+                <p class="form-row__textarea__alert" v-if="errors.emptyContent">
+                    * Merci de compléter le champ
+                </p>
             </div>
             <button @click="sendCom(post.id)" class="button" >
                 <span>Commenter</span>
@@ -25,12 +28,20 @@ export default {
     name: "Comments",
     data() {
         return{
+
+            errors: {
+                
+                emptyContent: false
+            },
+
             userId: "",
             admin: "",
             allComments: [],
             postId: "",
 
-            titleRules: [
+            
+
+            /* titleRules: [
                 v => !!v || 'Titre de la publication',
                 v => (v && v.length <= 50) || 'Le titre doit faire moins de 50 caractères',
             ],
@@ -40,7 +51,7 @@ export default {
             comContentRules: [
                 v => !!v || 'Ecrivez votre commentaire',
                 v => (v && v.length <= 255) || 'Le commentaire doit faire moins de 255 caractères',
-            ],
+            ], */
             
             dataCom:{
                 id: "",
@@ -52,6 +63,10 @@ export default {
     },
     methods: {
         sendCom(pId){
+            if (!this.dataCom.content) {
+                this.errors.emptyContent = true; 
+                return console.log("content can't be empty"); 
+            }
             this.dataCom.userId = this.userId;
             this.dataComS = JSON.stringify(this.dataCom);
             axios.post("http://localhost:3000/api/posts/" + pId + "/comments", this.dataComS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})

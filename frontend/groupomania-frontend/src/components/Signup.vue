@@ -1,25 +1,44 @@
 <template>
     <div class="card-signup">
         <div class="form-row">
-            <input v-model="dataSignup.email" :rules="emailRules" class="form-row__input" type="text" placeholder="Adresse mail"/>
+            <input v-model="dataSignup.email"  class="form-row__input" type="text" placeholder="Adresse mail"/>
+            <p class="signin__body__alert" v-if="errors.emptyEmail">
+                * Merci de compléter ce champ
+            </p>
+            <p class="signin__body__alert" v-else-if="errors.badValueEmail">
+                * Merci de renseigner une adresse mail valide
+            </p>
         </div>
         <div class="form-row">
-            <input v-model="dataSignup.firstname" :rules="firstnameRules" class="form-row__input" type="text" placeholder="Prénom"/>
-            <input v-model="dataSignup.lastname" :rules="lastnameRules" class="form-row__input" type="text" placeholder="Nom"/>
+            <input v-model="dataSignup.firstname"  class="form-row__input" type="text" placeholder="Prénom"/>
+            <p class="signin__body__alert" v-if="errors.emptyFirstname">
+                * Merci de compléter ce champ
+            </p>
+            <p class="signin__body__alert" v-else-if="errors.badValueFirstname">
+                * Merci de renseigner un prénom valide
+            </p>
+            <input v-model="dataSignup.lastname" class="form-row__input" type="text" placeholder="Nom"/>
+            <p class="signin__body__alert" v-if="errors.emptyLastname">
+                * Merci de compléter ce champ
+            </p>
+            <p class="signin__body__alert" v-else-if="errors.badValueLastname">
+                * Merci de renseigner un nom valide
+            </p>
         </div>
         <div class="form-row">
-            <input v-model="dataSignup.password" :rules="passRules" class="form-row__input" type="password" placeholder="Mot de passe"/>
+            <input v-model="dataSignup.password" class="form-row__input" type="password" placeholder="Mot de passe"/>
+            <p class="signin__body__alert" v-if="errors.emptyPassword">
+                * Merci de compléter ce champ
+            </p>
+            <p class="signin__body__alert" v-else-if="errors.badValuePassword">
+                * Merci de renseigner un mot de passe valide
+            </p>
         </div> 
-        <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
-            Adresse mail et/ou mot de passe invalide
-        </div>
-        <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
-            Adresse mail déjà utilisée
-        </div>
+        
         <div class="form-row">
-            <button @click="sendSignup()" class="button" :class="{'button--disabled' : !validatedFields}">
+            <button @click="sendSignup()" class="button" >
                 <span v-if="status == 'loading'">Création en cours...</span>
-                <span v-if="msg" class="span-success">{{ message }}</span>
+               <!--  <span v-if="msg" class="span-success">{{ message }}</span> -->
                 <span v-else>Créer mon compte</span>
             </button>
         </div>  
@@ -32,9 +51,19 @@ import axios from "axios"
 export default {
     data(){
         return{
+            errors: {
+                emptyEmail: false,
+                badValueEmail: false,
+                emptyFirstname: false,
+                badValueFirstname: false,
+                emptyLastname: false,
+                badValueLastname: false,
+                emptyPassword: false,
+                badValuePassword: false,
+            },
             valid: true,
             
-            firstnameRules: [
+            /* firstnameRules: [
                 v => !!v || 'Renseignez votre prénom',
                 v => /^[A-Za-z]+$/.test(v) || "Votre prénom n'est pas valide",
             ],
@@ -51,7 +80,7 @@ export default {
                 v => (v && v.length >= 5) || '5 caractères minimun',
                 v => /(?=.*[A-Z])/.test(v) || 'Au moins une majuscule', 
                 v => /(?=.*\d)/.test(v) || 'Au moins un chiffre',
-            ],
+            ], */
             dataSignup:{
                 firstname: "",
                 lastname: "",
@@ -64,25 +93,98 @@ export default {
             message: ""
         }
     },
-    computed: {
-    validatedFields: function () {
-      if (this.mode == 'create') {
-        if (this.email != "" && this.firstname != "" && this.lastname != "" && this.password != "") {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        if (this.email != "" && this.password != "") {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    },
-    },
+    
     methods: {
+        checkEmail(email) {
+            let re = /^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        },
+        checkOnlyLetters(value) {
+            let re = /^[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{2,70}$/;
+            return re.test(value);
+        },
+        checkPassword(password) {
+            let re = /[a-zA-Z0-9]{8}/;
+            return re.test(password);
+        },
+        test(field, emptyValue, badValue) {
+            if (!field) {
+                emptyValue = true;
+                console.log(emptyValue)
+                return emptyValue;
+            } else {
+                emptyValue = false; //drop error message if user correct the answer
+            }
+
+            if (!this.checkOnlyLetters(field)) {
+                badValue = true;
+                return badValue
+            } else {
+                badValue = false; //drop error message if user correct the answer
+            }
+            console.log(field, emptyValue, badValue)
+            
+        },
+        isFormError() {
+            if (!this.dataSignup.email) {
+                this.errors.emptyEmail = true;
+            } else {
+                this.errors.emptyEmail = false; //drop error message if user correct the answer
+            }
+            if (!this.checkEmail(this.dataSignup.email)) {
+                this.errors.badValueEmail = true;
+            } else {
+                this.errors.badValueEmail = false; //drop error message if user correct the answer
+            }
+            if (!this.dataSignup.firstname) {
+                this.errors.emptyFirstname = true;
+            } else {
+                this.errors.emptyFirstname = false; //drop error message if user correct the answer
+            }
+            if (!this.checkOnlyLetters(this.dataSignup.firstname)) {
+                this.errors.badValueFirstname = true;
+            } else {
+                this.errors.badValueFirstname = false; //drop error message if user correct the answer
+            }
+            if (!this.dataSignup.lastname) {
+                this.errors.emptyLastname = true;
+            } else {
+                this.errors.emptyLastname = false; //drop error message if user correct the answer
+            }
+            if (!this.checkOnlyLetters(this.dataSignup.lastname)) {
+                this.errors.badValueLastname = true;
+            } else {
+                this.errors.badValueLastname = false; //drop error message if user correct the answer
+            }
+            if (!this.dataSignup.password) {
+                this.errors.emptyPassword = true;
+            } else {
+                this.errors.emptyPassword = false; //drop error message if user correct the answer
+            }
+            if (!this.checkPassword(this.dataSignup.password)) {
+                this.errors.badValuePassword = true;
+            } else {
+                this.errors.badValuePassword = false;
+            }
+            if (
+                this.errors.emptyEmail ||
+                this.errors.badValueEmail ||
+                this.errors.emptyFirstname ||               
+                this.errors.badValueFirstname ||
+                this.errors.emptyLastname ||
+                this.errors.badValueLastname ||
+                this.errors.emptyPassword ||
+                this.errors.badValuePassword 
+            ) {
+                console.log("erreur dans le login");
+                return true;
+            }
+            return false;
+        },
         sendSignup(){
+            if (this.isFormError() === true) {
+                return;
+            }
             this.dataSignupS = JSON.stringify(this.dataSignup)
             axios.post('http://localhost:3000/api/auth/signup', this.dataSignupS, {headers: {'Content-Type': 'application/json'}})
             .then(response => {
