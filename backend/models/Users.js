@@ -18,7 +18,7 @@ class Users {
     return new Promise((resolve, reject) => {
       connection.query(sql, function (err, result) {
         if (err) reject({ error: "Erreur dans l'inscription" });
-        resolve({ message: "Compte créé !" });
+        resolve({ message: "Votre compte est créé !" });
       });
     });
   }

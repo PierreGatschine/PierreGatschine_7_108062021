@@ -36,10 +36,16 @@
         </div> 
         
         <div class="form-row">
-            <button @click="sendSignup()" class="button" >
-                <span v-if="status == 'loading'">Création en cours...</span>
-               <!--  <span v-if="msg" class="span-success">{{ message }}</span> -->
-                <span v-else>Créer mon compte</span>
+            <button @click="sendSignup()" class="button button-success" v-if="msg">
+               <!--  <span v-if="status == 'loading'">Création en cours...</span> -->
+                <span class="span-success">{{ message }}</span>
+                <p>* Pour rejoindre la messagerie vous devez<br> vous connectez à votre compte</p>
+                
+            </button>
+            <button @click="sendSignup()" class="button" v-else>
+               <!--  <span v-if="status == 'loading'">Création en cours...</span> -->
+                <!-- <span v-if="msg" class="span-success">{{ message }}</span> -->
+                <span>Créer mon compte</span>
             </button>
         </div>  
     </div>    
@@ -63,24 +69,6 @@ export default {
             },
             valid: true,
             
-            /* firstnameRules: [
-                v => !!v || 'Renseignez votre prénom',
-                v => /^[A-Za-z]+$/.test(v) || "Votre prénom n'est pas valide",
-            ],
-            lastnameRules: [
-                v => !!v || 'Renseignez votre nom',
-                v => /^[A-Za-z]+$/.test(v) || "Votre nom n'est pas valide",
-            ],
-            emailRules: [
-                v => !!v || 'Renseignez votre e-mail',
-                v => /.+@.+\..+/.test(v) || "Votre e-mail n'est pas valide",
-            ],
-            passRules: [
-                v => !!v || 'Renseignez votre mot de passe',
-                v => (v && v.length >= 5) || '5 caractères minimun',
-                v => /(?=.*[A-Z])/.test(v) || 'Au moins une majuscule', 
-                v => /(?=.*\d)/.test(v) || 'Au moins un chiffre',
-            ], */
             dataSignup:{
                 firstname: "",
                 lastname: "",
@@ -235,8 +223,7 @@ export default {
 
   .span-success {
     min-width: 100px;
-    background: #2a9709;
-    color:antiquewhite;
+    color: antiquewhite;
     border-radius: 8px;
     font-weight: 800;
     font-size: 16px;
@@ -245,8 +232,12 @@ export default {
     padding: 16px;
     transition: .4s background-color;
   }
-  .success {
-      color: green;
+  .button-success {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 1rem;
+    background: rgb(15, 153, 15);
   }
 
 
