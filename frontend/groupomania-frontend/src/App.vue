@@ -33,7 +33,7 @@ export default {
 }
 
 #app {
-  max-width: 100%;
+  max-width: 640px;
 }
 
 body {
@@ -114,4 +114,28 @@ body {
     cursor:not-allowed;
     background:#165b9d;
   }
+
+  @media screen and (max-width: 500px) {
+    
+    .card {
+      width: 100%;
+      border-radius: 0px;
+    }
+
+
+  } 
+
+  @media screen and (max-width: 394px) {
+    
+    #nav {
+      text-align: center;
+      align-self: center;
+    }
+    .card {
+      width: 100%;
+      border-radius: 0px; 
+    }
+
+
+  } 
 </style>

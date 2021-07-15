@@ -116,5 +116,21 @@ export default {
     }
 
 
+    @media screen and (max-width: 500px) {
+        .card-publication {
+            max-width: 500px;
+            
+        }
+
+
+    } 
+
+    @media screen and (max-width: 394px) {
+        .card-publication {
+            max-width: 375px;
+        
+        }
+    } 
+
 
 </style>

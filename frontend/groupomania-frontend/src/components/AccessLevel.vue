@@ -192,4 +192,25 @@ i {
     font-size: 25px;
 }
 
+@media screen and (max-width: 500px) {
+        .card-adminPost {
+            width: 500px;
+        }
+        h2 {
+            text-align: center;
+        }
+
+        
+    } 
+
+    @media screen and (max-width: 394px) {
+        .card-adminPost {
+            width: 100%;
+            border-radius: 0px;
+        }
+        
+        
+    }
+
+    
 </style>

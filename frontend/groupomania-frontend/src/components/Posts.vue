@@ -5,9 +5,16 @@
                 <h2 class="card-post-name__title">{{ post.firstname }} {{ post.lastname }}</h2>
                 <p class="card-post-name__subtitle">{{ post.date }} à {{ post.time }}</p>
             </div>
-            <div class="card-post-content">
-                <h3 class="card-post-content__title">{{ post.title }}</h3>
-                <div class="card-post-content__content">{{ post.content }}</div>
+            <div class="card-post-group-content-img">
+                <div class="card-post-content">
+                    <h3 class="card-post-content__title">{{ post.title }}</h3>
+                    <div class="card-post-content__content">{{ post.content }}</div>
+                </div>
+                <div class="card-post-img" >
+                   <!-- <div class="card-post-img__content">{{ post.media_url }}</div> -->
+                   <img class="card-post-img__content--img" :src="require('../assets/toto.jpg')" alt="Groupomania logo"/>
+                   <!--  <img class="post-img__content--img" aria-label="image partagée par l'utilisateur" :src="require(`../../../../backend/images/${getMediaName()}`)"/> -->
+                </div>
             </div>
             <div class="btn-icon">
                 <div class="btn-icon-heart">
@@ -45,7 +52,10 @@
                             <h3>Commenter</h3>
                         </div>
                         <div class="form-row">
-                            <textarea v-model="dataCom.content" :rules="comContentRules" :counter="255" class="form-row__textarea" name="content" rows="3" cols="53" placeholder="Commentaire"></textarea>
+                            <textarea v-model="dataCom.content" :counter="255" class="form-row__textarea" name="content" rows="3" cols="53" placeholder="Commentaire"></textarea>
+                            <p class="form-row__textarea__alert" v-if="errors.emptyContent">
+                                * Merci de compléter le champ
+                            </p>
                         </div>
                         <button :disabled="!valid" @click="sendCom(post.id)" class="button btn-comment" >
                             <span>Commenter</span>
@@ -62,24 +72,21 @@
                         </div>
                         <v-form class="post-update-card__form" ref="form" v-model="valid">
                             <div class="form-row">
-                                <input v-model="dataPost.title" :rules="titleRules" :counter="50" class="form-input form-input__title" type="text" placeholder="Titre"/>
+                                <input v-model="dataPost.title" :counter="50" class="form-input form-input__title" type="text" placeholder="Titre"/>
+                                <p class="form-row__title__alert" v-if="errors.emptyContent">
+                                    * Merci de compléter le champ
+                                </p>
                             </div>
                             <div class="form-row">
-                                <textarea v-model="dataPost.content" :rules="contentRules" class="form-input form-input__content" name="content" rows="6" cols="51" placeholder="Contenu"></textarea>
+                                <textarea v-model="dataPost.content" class="form-input form-input__content" name="content" rows="6" cols="51" placeholder="Contenu"></textarea>
+                                <p class="form-row__textarea__alert" v-if="errors.emptyContent">
+                                    * Merci de compléter le champ
+                                </p>
                             </div>
                         </v-form>
                         <button  @click="updatePost()" class="button btn-update" >
                             <span>Modifier</span>
                         </button>
-                        <!-- <div class="btn-group">
-                            <button text @click="dialogUpPost=false" class="button btn-alert" >
-                                <span>Annuler</span>
-                            </button>
-                            <button  @click="updatePost()" class="button btn-update" >
-                                <span>Modifier</span>
-                            </button>
-                        </div> -->
-                        
                     </div>
                 </div>
             
@@ -90,7 +97,7 @@
 
 <script>
 import axios from "axios"
-/* import Comments from "./Comments.vue" */
+
 
 export default {
     name : "Posts",
@@ -107,28 +114,25 @@ export default {
             allComments: [],
             postId: "",
 
+            thereIsImage: null,
+
+            errors: {
+                emptyContent: false
+            },
+
             showModalComments: false,
             showModalUpdate: false,
 
-           /*  dialogUpCom: false,
+            /* dialogUpCom: false,
             dialogUpPost: false, */
 
             valid: true,
-            titleRules: [
-                v => !!v || 'Titre de la publication',
-                v => (v && v.length <= 50) || 'Le titre doit faire moins de 50 caractères',
-            ],
-            contentRules: [
-                v => !!v || 'Ecrivez votre message',
-            ],
-            comContentRules: [
-                v => !!v || 'Ecrivez votre commentaire',
-                v => (v && v.length <= 255) || 'Le commentaire doit faire moins de 255 caractères',
-            ],
+            
             dataPost: {
                 id: "",
                 title:"",
                 content:"",
+                media_url:"",
                 userId:"",
             },
             dataPostS: "",
@@ -151,13 +155,39 @@ export default {
         }
     },
     methods: {
-        goDialogUpPost(postTitle, postContent, postId){
+        /* isThereMedia() {
+            if (this.postData.media_url) {
+                let extension = this.postData.media_url.split(".").pop();
+                if (
+                extension === "jpg" ||
+                extension === "jpeg" ||
+                extension === "png"
+                ) {
+                    this.thereIsImage = true;
+                }
+            }
+        }, */
+       /*  getMediaName() {
+            let mediaName = this.postData.media_url;
+            let extension = mediaName.split(".").pop();
+            if (mediaName === null) {
+                this.thereIsImage = false;
+            }
+            if (extension === "jpg" || extension === "jpeg" || extension === "png") {
+                return mediaName;
+            }
+        }, */
+       /*  goDialogUpPost(postTitle, postContent, postId){
             this.dataPost.title = postTitle;
             this.dataPost.content = postContent;
             this.dataPost.id = postId;
-           /*  this.dialogUpPost = true; */
-        },
+           this.dialogUpPost = true; 
+        }, */
         updatePost(){
+            if (!this.dataPost.title || !this.dataPost.content ) {
+                this.errors.emptyContent = true; 
+                return console.log("content can't be empty"); 
+            }
             this.dataPost.userId = localStorage.userId;
             this.dataPostS = JSON.stringify(this.dataPost);
             axios.put("http://localhost:3000/api/posts/" + this.dataPost.id, this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
@@ -202,6 +232,10 @@ export default {
             this.afficheFrmCm = true
         },
         sendCom(pId){
+            if (!this.dataCom.content) {
+                this.errors.emptyContent = true; 
+                return console.log("content can't be empty"); 
+            }
             this.dataCom.userId = this.userId;
             this.dataComS = JSON.stringify(this.dataCom);
             axios.post("http://localhost:3000/api/posts/" + pId + "/comments", this.dataComS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
@@ -265,7 +299,9 @@ export default {
             })
             .catch(error => {
                 console.log(error)
-            }); 
+            });
+
+       /*  this.isThereMedia();  */
     },
 }
 </script>
@@ -278,14 +314,28 @@ export default {
         align-items: flex-start;
         justify-content: space-around;
         gap: 3rem;
-        
+    } 
+
     .card-post__allPosts {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1rem;
         width: 100%;
         padding: 1rem;
         text-shadow: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3));
         border-bottom: 1px solid #0f4475;
     }
+
+    .card-post-group-content-img {
+        display: flex;
+        justify-content: space-between;
+        align-content: flex-end;
+        flex-wrap: nowrap; 
+        gap: 1rem;
+        padding:16px;
     }
+
     .card-post-name {
         margin-bottom: .5rem; 
         border-radius: 16px;
@@ -300,7 +350,14 @@ export default {
             font-size: 16px;
         }
     }
+
     .card-post-content {
+        
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 400px;
+
         &__title {
             font-weight: 700;
             font-size: 22px;
@@ -310,14 +367,31 @@ export default {
             font-size: 20px;
         }
     }
+    
+    .card-post-img {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        max-width: 100%;
+        width: 500px;
+        border-radius: 16px;
+        
+        &__content {
+            &--img {
+                object-fit: cover;
+                width: 100%;
+                
+                border-radius: 16px;               
+            }
+        }
+    }
 
     button {
         text-decoration: none;
         border: none;
         background: transparent;
         color: antiquewhite;
-        transition: .8s color;
-         
+        transition: .8s color;  
     }
 
     button:hover {
@@ -351,7 +425,6 @@ export default {
             }
            
         }
-
     }
 
     .btn-icon-comment {
@@ -475,10 +548,9 @@ export default {
         border: none;
         border-radius: 8px;
         background: #1976cd;
-       /*  background:antiquewhite; */
         font-weight: 500;
         font-size: 16px;
-        flex:1;
+        flex:1; 
         min-width: 100px;
         font-weight: 500;
         color:antiquewhite;
@@ -508,4 +580,28 @@ export default {
         border-bottom: 1px solid #0f4475;
     }
 
+    @media screen and (max-width: 394px) {
+        .card-post-name {
+            text-align: center;
+        }
+
+        .btn-icon {
+            align-self: center;
+        }
+
+
+    }
+    @media screen and (max-width: 375px) {
+        .card-post-name {
+            text-align: center;
+        }
+
+        .btn-icon {
+            align-self: center;
+        }
+
+        .form-input__content {
+            max-width: 100%;
+        }
+    }
 </style>

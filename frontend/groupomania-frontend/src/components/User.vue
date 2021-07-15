@@ -215,10 +215,6 @@ export default {
     text-decoration: underline;
   }
 
-  /* .card__action:hover {
-    cursor:pointer;
-  } */
-
   .btn-group {
         display: flex;
         gap: 1rem;
@@ -285,5 +281,22 @@ export default {
             background: red;
         }
     }
+    
+    @media screen and (max-width: 500px) {
+        .card {
+           border-radius: 0px;
+            
+            
+        }
+
+        
+    } 
+
+    @media screen and (max-width: 394px) {
+        img {
+        max-width: 200px;
+        
+        }
+    } 
 
 </style>

@@ -30,6 +30,20 @@ h1 {
     font-weight: 700;
 }
 
+@media screen and (max-width: 500px) {
+    img {
+      width: 350px;
+       
+    }
+  } 
+
+@media screen and (max-width: 394px) {
+    img {
+      width: 200px;
+       
+    }
+  } 
+
 </style>
 
 

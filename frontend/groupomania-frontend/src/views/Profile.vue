@@ -26,9 +26,25 @@ export default {
 
 <style lang="scss" scoped>
 
-.fa-envelope-open {
-    padding: 1rem;
-    font-size: 25px;
-    color: #32a2f9;
-}
+    .fa-envelope-open {
+        padding: 1rem;
+        font-size: 25px;
+        color: #32a2f9;
+    }
+
+    @media screen and (max-width: 500px) {
+            .card-profile-view {
+                max-width: 500px;
+                border-radius: 0px;
+            }
+
+
+    } 
+
+    @media screen and (max-width: 394px) {
+        .card-profile-view {
+            max-width: 375px;
+            border-radius: 0px;
+        }
+    } 
 </style>

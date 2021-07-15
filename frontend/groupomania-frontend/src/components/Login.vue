@@ -98,7 +98,7 @@ export default {
     background:antiquewhite;
     font-weight: 500;
     font-size: 16px;
-    flex:1;
+    flex:1; 
     min-width: 100px;
     color: #165b9d;
   }
@@ -107,6 +107,13 @@ export default {
     color:#979797;
   }
 
+    @media screen and (max-width: 500px) {
 
+      .form-row {
+        display: flex;
+        flex-wrap: nowrap;
+      }
+    
+  }
 
 </style>

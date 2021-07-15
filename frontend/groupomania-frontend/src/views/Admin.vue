@@ -26,27 +26,47 @@ export default {
 
 <style lang="scss" scoped>
 
-/* .card {
-     background: transparent;
-} */
-.card-Admin-view {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-around;
-    gap: 1.5rem;
-}
+    .card-Admin-view {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-around;
+        gap: 1.5rem;
+    }
 
-.fa-envelope-open {
-    padding: 1rem;
-    font-size: 25px;
-    color: #32a2f9;
-}
+    .fa-envelope-open {
+        padding: 1rem;
+        font-size: 25px;
+        color: #32a2f9;
+    }
 
-h1 {  
-    align-self: center;
-    font-weight: 700;
-    margin-bottom: 16px;
-}
+    h1 {  
+        align-self: center;
+        font-weight: 700;
+        margin-bottom: 16px;
+    }
 
+     
+    @media screen and (max-width: 500px) {
+        .card-Admin-view {
+            width: 100%;
+            border-radius: 0px;
+            align-items: center;
+        }
+
+        
+    } 
+
+    @media screen and (max-width: 394px) {
+        .card-Admin-view {
+            width: 100%;
+            border-radius: 0px;
+            align-items: center;
+        } 
+    }
+    @media screen and (max-width: 375px) {
+        h1 {
+            text-align: center;
+        }   
+    }
 </style>

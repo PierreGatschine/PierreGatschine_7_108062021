@@ -29,8 +29,7 @@ export default {
     data() {
         return{
 
-            errors: {
-                
+            errors: {           
                 emptyContent: false
             },
 

@@ -5,21 +5,21 @@
         </div>
         <div class="form-row">
             <input  v-model="dataPost.title"  class="form-row__input" type="text" placeholder="Titre"/>
-            <p class="form-row__input__alert" v-if="errors.emptyTitle">
-                * Merci de compléter les champs
+            <p class="form-row__input__alert" v-if="errors.emptyContent">
+                * Merci de compléter le champ
             </p>
         </div>
 
         <div class="form-row">
             <textarea v-model="dataPost.content" class="form-row__textarea" name="content" rows="10" cols="55" placeholder="Contenu"></textarea>
             <p class="form-row__textarea__alert" v-if="errors.emptyContent">
-                * Merci de compléter les champs
+                * Merci de compléter le champ
             </p>
         </div>
         <div class="btn-group">
-            <input class="form-row__input--img" type="file"
+            <input @change="handleFileUpload" class="form-row__input--img" type="file"
                     accept="image/png, image/jpeg, image/jpg, video/mp4, video/mkv"
-                    name="media" @change="handleFileUpload" />  
+                    name="media" />  
             <button :disabled="!valid" @click="sendPost" class="button" >
                 <span>Publier</span>
             </button>
@@ -36,16 +36,17 @@ export default {
     data(){
         return{
             errors: {
-                emptyTitle: false,
                 emptyContent: false
             },
             valid: true,
+
+            file: "", 
             
             dataPost:{
                 title: "",
                 content: "",           
                 media_url: "",
-                file: "", 
+ 
                 userId: localStorage.userId
             },
             dataPostS: "",
@@ -54,22 +55,29 @@ export default {
         }
     },
     methods: {
+        /* eventTarget(e) {
+            const media_url = e.target.files[0];
+            console.log(media_url );
+        }, */
+
         handleFileUpload(event) {
             console.log("Handling file", event.target.files[0]);
             this.file = event.target.files[0];
             console.log("file is ", this.file);
-            
+ 
         },
-        sendPost(){
+
+        sendPost() {
                 
             if (!this.dataPost.title || !this.dataPost.content) {
-                this.errors.emptytitle = true;
                 this.errors.emptyContent = true; 
                 return console.log("content can't be empty"); 
             }
-            /* this.handleFileUpload = this.dataPostS.media_url; */
+            this.dataPost.media_url = URL.createObjectURL(this.file);
+            console.log("dataPost: " , this.dataPost); 
+           /*  this.handleFileUpload = this.dataPostS.media_url; */
             this.dataPostS = JSON.stringify(this.dataPost);
-            console.log(this.dataPostS);
+            console.log("dataPosts: " , this.dataPostS);
             axios.post("http://localhost:3000/api/posts/", this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
                 .then(response => {
                     let rep = JSON.parse(response.data);
@@ -85,7 +93,7 @@ export default {
                 });
         },
     },
-}
+} 
 </script>
 
 <style lang="scss" scoped> 
@@ -94,7 +102,7 @@ export default {
         display: flex;
         flex-direction: column;
         max-width: 100%;
-        width: 700px;
+        /* width: 770px; */
         background: #1976cd;
         border-radius: 16px;
         padding: 32px;
@@ -163,6 +171,32 @@ export default {
         gap: 1rem;
     }
  
+    
+    
+    @media screen and (max-width: 643px) {
+        .card-editPost {
+            width: 100%;
+            border-radius: 0px;
+            
+        }
+
+        
+    } 
+    @media screen and (max-width: 500px) {
+        .card-editPost {
+            width: 100%;
+            border-radius: 0px;
+        }
+
+        
+    } 
+
+    @media screen and (max-width: 394px) {
+        img {
+        max-width: 200px;
+        border-radius: 0px;
+        }
+    } 
 
 
 </style> 
