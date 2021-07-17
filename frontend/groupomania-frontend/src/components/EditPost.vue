@@ -136,7 +136,7 @@ export default {
         font-weight: 300;
         font-size: 20px ;
         background:#1768b3;
-        color: antiquewhite;
+        color: #faebd7;
     }
 
      .form-row__input::placeholder {
