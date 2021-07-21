@@ -5,7 +5,7 @@ export default createStore({
     authObj: {
       userId: "",
       token: ""
-    }
+    } 
   },
   mutations: {
   },

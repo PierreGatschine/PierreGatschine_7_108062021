@@ -4,7 +4,7 @@ const multer = require("multer"); // Manages the download of files multipart/for
 
 const MIME_TYPES = {
   "image/jpg": "jpg",
-  "image/jpeg": "jpg",
+  "image/jpeg": "jpeg",
   "image/png": "png",
 };
 
@@ -16,7 +16,9 @@ const storage = multer.diskStorage({
     const name = file.originalname.split(" ").join("_");
     const extension = MIME_TYPES[file.mimetype];
     callback(null, name + Date.now() + "." + extension);
+    /* const properName = name.split(extension)[0];
+    callback(null, properName + Date.now() + extension); */
   },
 });
 
-module.exports = multer({ storage: storage }).single("image");
+module.exports = multer({ storage: storage }).single("media");

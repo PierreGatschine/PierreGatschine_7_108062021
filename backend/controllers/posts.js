@@ -11,26 +11,29 @@ const tokenRandom = process.env.TOKEN_RANDOM;
 
 
 
-exports.getAllPosts = (req, res, next) => {
+exports.getAllPosts = (req, res) => {
   posts.getAllPosts().then((response) => {
     res.status(200).json(JSON.stringify(response));
   });
 };
 
-exports.createPost = (req, res, next) => {
-  /* const media_url = req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null;  */
-  /* const media_url = req.file ? req.file.filename : null; */
-  /* console.log(media_url); */
+exports.createPost = (req, res) => {
+  /* let fileImage = req.file
+    ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+    : null;  */
+  let fileImage = req.file ? req.file.filename : null; 
+  console.log("media:", fileImage);
   const { title, userId, content, media_url } = req.body;
-  let sqlInserts = [userId, title, content, media_url];
-  sqlInserts.media_url = req.file ? req.file.filename : null;
-  console.log("sql: ", sqlInserts.media_url);
+  let sqlInserts = [userId, title, content, media_url, fileImage];
+  console.log("sqlInserts:", sqlInserts);
+  /* sqlInserts.file = req.file ? req.file.filename : null; */
+  console.log("images: ", sqlInserts[4]);
   posts.createPost(sqlInserts).then((response) => {
     res.status(201).json(JSON.stringify(response));
   });
 };
 
-exports.updatePost = (req, res, next) => {
+exports.updatePost = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
   const userId = decodedToken.userId;
@@ -48,7 +51,7 @@ exports.updatePost = (req, res, next) => {
       res.status(400).json(JSON.stringify(error));
     });
 };
-exports.deletePost = (req, res, next) => {
+exports.deletePost = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, tokenRandom);
   const userId = decodedToken.userId;
@@ -66,7 +69,7 @@ exports.deletePost = (req, res, next) => {
     });
 };
 
-exports.getComments = (req, res, next) => {
+exports.getComments = (req, res) => {
   const postId = req.params.id;
   let sqlInserts = [postId];
   posts.getComments(sqlInserts).then((response) => {

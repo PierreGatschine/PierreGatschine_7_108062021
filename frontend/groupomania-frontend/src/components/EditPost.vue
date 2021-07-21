@@ -40,18 +40,19 @@ export default {
             },
             valid: true,
 
-            file: "", 
+            
             
             dataPost:{
                 title: "",
                 content: "",           
                 media_url: "",
- 
+                fileImage: "",
                 userId: localStorage.userId
             },
             dataPostS: "",
             msg: false,
             message: "",
+            file: "",  
         }
     },
     methods: {
@@ -64,7 +65,6 @@ export default {
             console.log("Handling file", event.target.files[0]);
             this.file = event.target.files[0];
             console.log("file is ", this.file);
- 
         },
 
         sendPost() {
@@ -74,8 +74,9 @@ export default {
                 return console.log("content can't be empty"); 
             }
             this.dataPost.media_url = URL.createObjectURL(this.file);
+            this.dataPost.fileImage = this.file; 
+            console.log("mediaImg: ", this.dataPost.fileImage);
             console.log("dataPost: " , this.dataPost); 
-           /*  this.handleFileUpload = this.dataPostS.media_url; */
             this.dataPostS = JSON.stringify(this.dataPost);
             console.log("dataPosts: " , this.dataPostS);
             axios.post("http://localhost:3000/api/posts/", this.dataPostS, {headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.token}})
@@ -83,7 +84,7 @@ export default {
                     let rep = JSON.parse(response.data);
                     this.message = rep.message;
                     this.msg = true;
-                    this.form = false;  
+                    this.form = false; 
                     window.location.assign('http://localhost:8081/Publication');
                 })
                 .catch(error => {

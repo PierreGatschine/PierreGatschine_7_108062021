@@ -25,14 +25,14 @@ module.exports = (req, res, next) => {
  */
 
   try {
-        const token = req.headers.authorization.split(' ')[1]; //extrait le token de l'authorization de la requete entrante
-        const decodedToken = jwt.verify(token, tokenRandom); //décode le token, si invalide, une erreur sera générée
-        const userId = decodedToken.userId; //extrait l'id utilisateur du token
+        const token = req.headers.authorization.split(' ')[1]; 
+        const decodedToken = jwt.verify(token, tokenRandom); 
+        const userId = decodedToken.userId; 
         const role = decodedToken.role;
         if(userId) {
-            req.currentUserId = userId; //save userId into request object
+            req.currentUserId = userId; 
             req.admin = role == 1;
-            next(); //utilisateur authentifié
+            next(); 
         }
     } catch {
         res.status(401).json({
